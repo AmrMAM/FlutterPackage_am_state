@@ -1,7 +1,9 @@
 name: am_state
 description: A state-management and data providing library.
 version: 0.0.1
-homepage:
+homepage: https://github.com/AmrMAM/FlutterPackage_am_state.git
+autor: Amr Mostafa (Amr_MAM)
+
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
