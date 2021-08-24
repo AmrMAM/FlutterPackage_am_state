@@ -5,14 +5,14 @@ class AmRefreshWidget<T> extends StatefulWidget {
       {Key? key, required this.builder, required this.amDataProvider})
       : super(key: key);
 
-  final AmDataProvider amDataProvider;
+  final AmDataProvider<T> amDataProvider;
   final Widget Function(BuildContext ctx, T? value) builder;
 
   @override
-  _AmRefreshStateState createState() => _AmRefreshStateState();
+  _AmRefreshStateState<T> createState() => _AmRefreshStateState<T>();
 }
 
-class _AmRefreshStateState extends State<AmRefreshWidget> {
+class _AmRefreshStateState<T> extends State<AmRefreshWidget<T>> {
   @override
   void didChangeDependencies() {
     widget.amDataProvider._callSetState = setState;
