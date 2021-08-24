@@ -1,6 +1,6 @@
 # am_state
-A state-management and data providing library. 
-## ---No stateful widgets needed---
+#### A state-management and data providing library. 
+#### ---No stateful widgets needed---
 
 
 ## Getting Started
@@ -75,4 +75,4 @@ class Example extends StatelessWidget {
 
 ```
 
-### please star my repo and flow me
+### Please star my repo and follow me 😍
