@@ -6,3 +6,6 @@ clean unneeded files
 
 ## 0.0.2+1
 fixed type error of accessing data
+
+## 0.0.3
+Adding future: Using one provider for multiple (RefreshWidget)s

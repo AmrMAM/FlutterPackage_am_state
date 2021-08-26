@@ -1,3 +1,17 @@
+<p align="middle">
+<img src="./logo.png">
+</p>
+
+[![GitHub contributors](https://img.shields.io/github/contributors/AmrMAM/FlutterPackage_am_state)](https://github.com/AmrMAM/FlutterPackage_am_state/contributors)
+[![GitHub issues](https://img.shields.io/github/issues/AmrMAM/FlutterPackage_am_state)](https://github.com/AmrMAM/FlutterPackage_am_state/issues)
+[![GitHub forks](https://img.shields.io/github/forks/AmrMAM/FlutterPackage_am_state)](https://github.com/AmrMAM/FlutterPackage_am_state/network)
+[![GitHub stars](https://img.shields.io/github/stars/AmrMAM/FlutterPackage_am_state)](https://github.com/AmrMAM/FlutterPackage_am_state/stargazers)
+[![GitHub license](https://img.shields.io/github/license/AmrMAM/FlutterPackage_am_state)](https://github.com/AmrMAM/FlutterPackage_am_state/blob/main/LICENSE)
+<img src="https://img.shields.io/github/languages/count/AmrMAM/FlutterPackage_am_state" />
+<img src="https://img.shields.io/github/languages/top/AmrMAM/FlutterPackage_am_state" />
+<img src="https://img.shields.io/github/languages/code-size/AmrMAM/FlutterPackage_am_state" />
+<img src="https://img.shields.io/github/issues-pr-raw/AmrMAM/FlutterPackage_am_state" />
+
 # am_state
 #### A state-management and data providing library. 
 #### ---No stateful widgets needed---
@@ -15,12 +29,14 @@ final dataProvider = AmDataProvider<int>(
 );
 
 // OR
-final dataProvider = AmDataProvider<int>();     // You can't access this with id
+final dataProvider = AmDataProvider<int>();  
+// You can't access this with id and dying if disposed
+// if you added a providerId the provider won't die
 ```
 
-### To get data any where after initializing the provider
+### To get data anywhere after initializing the provider
 ```Dart
-int? num = AmDataProvider<int>.of('dataP_01').data;
+int? num = AmDataProvider<int>.of('providerId').data;
 ```
 
 ### To Refresh widgets if data changed
@@ -43,7 +59,7 @@ class Example extends StatelessWidget {
   }
 }
 ```
-
+### Note: you could use one provider for multiple (RefreshWidget)s
 ### To change the provider data without refresh states
 ```Dart
     
@@ -77,3 +93,7 @@ class Example extends StatelessWidget {
 
 ### Please star my repo and follow me 😍
 https://github.com/AmrMAM/FlutterPackage_am_state
+
+
+## <font color='6776FF'>Licence</font>
+[MIT LICENCE](https://github.com/AmrMAM/FlutterPackage_am_state/blob/main/LICENSE)

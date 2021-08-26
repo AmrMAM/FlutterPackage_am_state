@@ -14,25 +14,32 @@ class AmRefreshWidget<T> extends StatefulWidget {
 
 class _AmRefreshStateState<T> extends State<AmRefreshWidget<T>> {
   @override
-  void didChangeDependencies() {
-    widget.amDataProvider._callSetState = setState;
-    super.didChangeDependencies();
+  void initState() {
+    widget.amDataProvider._callSetState.add(setState);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return widget.builder(context, widget.amDataProvider._data);
   }
+
+  @override
+  void dispose() {
+    widget.amDataProvider._callSetState.remove(setState);
+    super.dispose();
+  }
 }
 
 class AmDataProvider<T> {
   static final _instances = <String, dynamic>{};
   T? _data;
-  void Function(void Function())? _callSetState;
+  List<void Function(void Function())> _callSetState = [];
   set activeFunction(void Function() fn) {
-    if (_callSetState != null) {
+    if (_callSetState.isNotEmpty) {
       WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-        _callSetState!(() => fn());
+        fn();
+        _callSetState.forEach((f) => f(() {}));
       });
     } else {
       fn();
@@ -40,9 +47,10 @@ class AmDataProvider<T> {
   }
 
   set data(T? value) {
-    if (_callSetState != null) {
+    if (_callSetState.isNotEmpty) {
       WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-        _callSetState!(() => _data = value);
+        _data = value;
+        _callSetState.forEach((f) => f(() {}));
       });
     } else
       _data = value;
@@ -50,7 +58,8 @@ class AmDataProvider<T> {
 
   set silentDataSet(T? value) => _data = value;
   T? get data => _data;
-  void refresh() => _callSetState!(() {});
+  void refresh() => _callSetState.forEach((f) => f(() {}));
+
   factory AmDataProvider.of(String providerId) {
     return (_instances[providerId] ?? AmDataProvider._instance())
         as AmDataProvider<T>;
