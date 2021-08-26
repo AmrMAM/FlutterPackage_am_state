@@ -59,7 +59,7 @@ class Example extends StatelessWidget {
   }
 }
 ```
-### Note: you could use one provider for multiple (RefreshWidget)s
+### `Note: you could use one provider for multiple (AmRefreshWidget)s`
 ### To change the provider data without refresh states
 ```Dart
     
