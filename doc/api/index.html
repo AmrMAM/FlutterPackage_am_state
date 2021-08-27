@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 2.0.0">
+  <meta name="description" content="am_state API docs, for the Dart programming language.">
+  <title>am_state - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href=""
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://github.com/AmrMAM/FlutterPackage_am_state.git">am_state package</a></li>
+  </ol>
+  <div class="self-name">am_state</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <p align="middle">
+<img src="https://raw.githubusercontent.com/AmrMAM/FlutterPackage_am_state/main/logo.png">
+</p>
+<p><a href="https://github.com/AmrMAM/FlutterPackage_am_state/contributors"><img src="https://img.shields.io/github/contributors/AmrMAM/FlutterPackage_am_state" alt="GitHub contributors"></a>
+<a href="https://github.com/AmrMAM/FlutterPackage_am_state/issues"><img src="https://img.shields.io/github/issues/AmrMAM/FlutterPackage_am_state" alt="GitHub issues"></a>
+<a href="https://github.com/AmrMAM/FlutterPackage_am_state/network"><img src="https://img.shields.io/github/forks/AmrMAM/FlutterPackage_am_state" alt="GitHub forks"></a>
+<a href="https://github.com/AmrMAM/FlutterPackage_am_state/stargazers"><img src="https://img.shields.io/github/stars/AmrMAM/FlutterPackage_am_state" alt="GitHub stars"></a>
+<a href="https://github.com/AmrMAM/FlutterPackage_am_state/blob/main/LICENSE"><img src="https://img.shields.io/github/license/AmrMAM/FlutterPackage_am_state" alt="GitHub license"></a>
+<img src="https://img.shields.io/github/languages/top/AmrMAM/FlutterPackage_am_state"></p>
+<h1 id="am_state">am_state</h1>
+<h4 id="a-state-management-and-data-providing-library">A state-management and data providing library.</h4>
+<h3 id="this-lib-gives-amdataprovidert-as-data-provider-and-amrefreshwidgett-as-wrapper-to-the-widgets-that-must-be-changed-when-provider-data-changed"><code>This lib gives (AmDataProvider&lt;T&gt;) as data provider and (AmRefreshWidget&lt;T&gt;) as wrapper to the widgets that must be changed when provider data changed.</code></h3>
+<h2 id="getting-started">Getting Started:</h2>
+<h3 id="to-import-am_state">To import am_state:</h3>
+<pre class="language-Dart"><code class="language-Dart">import 'package:am_state/am_state.dart';
+</code></pre>
+<h3 id="to-initialize-data-provider">To initialize data provider:</h3>
+<pre class="language-Dart"><code class="language-Dart">final dataProvider = AmDataProvider&lt;int&gt;(
+  initialData: 0,
+  providerId: 'providerId',
+);
+dataProvider.initialize;  // you need to use this if you want to access the provider with its id instead of its name at first time.
+
+// OR
+final dataProvider = AmDataProvider&lt;int&gt;();  
+// You can't access this with id and dying if disposed.
+// You can only access this with its name ex:[dataProvider] if still alive.
+// if you added a providerId the provider won't die.
+</code></pre>
+<h3 id="to-get-data-anywhere-after-initializing-the-provider">To get data anywhere after initializing the provider:</h3>
+<pre class="language-Dart"><code class="language-Dart">int? num = AmDataProvider&lt;int&gt;.of('providerId').data;
+</code></pre>
+<h3 id="to-refresh-widgets-if-data-changed">To Refresh widgets if data changed:</h3>
+<pre class="language-Dart"><code class="language-Dart">class Example extends StatelessWidget {
+  const Example({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: AmRefreshWidget&lt;int&gt;(
+        amDataProvider: AmDataProvider&lt;int&gt;.of('providerId'),
+        builder: (ctx, value) {
+          return Text('$value');
+        },
+      ),
+    );
+  }
+}
+</code></pre>
+<h3 id="note-you-could-use-one-provider-for-multiple-amrefreshwidgets"><code>Note: you could use one provider for multiple (AmRefreshWidget)s</code></h3>
+<h3 id="to-change-the-provider-data-without-refresh-states">To change the provider data without refresh states:</h3>
+<pre class="language-Dart"><code class="language-Dart">    
+    dataProvider.silentDataSet = dataProvider.data! + 1;
+    // OR
+    AmDataProvider&lt;String&gt;.of('providerId').silentDataSet = 'any data';
+
+</code></pre>
+<h3 id="to-change-provider-data-with-refresh-states">To change provider data with refresh states:</h3>
+<pre class="language-Dart"><code class="language-Dart">
+    dataProvider.data = dataProvider.data! + 1;
+    // OR
+    AmDataProvider&lt;String&gt;.of('providerId').data = 'Some Data';
+
+</code></pre>
+<h3 id="to-instantinously-excute-some-code-and-then-refresh-states">To instantinously excute some code and then refresh states:</h3>
+<pre class="language-Dart"><code class="language-Dart">
+    dataProvider.activeFunction = () {
+      //...Some Code....instantinously invoked then states refreshed
+    };
+    // OR
+    AmDataProvider&lt;String&gt;.of('providerId').activeFunction = () {
+      //...Some Code....instantinously invoked then states refreshed
+    };
+
+</code></pre>
+<h3 id="please-star-my-repo-and-follow-me-">Please star my repo and follow me 😍</h3>
+<p><a href="https://github.com/AmrMAM/FlutterPackage_am_state">https://github.com/AmrMAM/FlutterPackage_am_state</a></p>
+<h2 id="font-color6776fflicencefont"><font color="6776FF">Licence</font></h2>
+<p><a href="https://github.com/AmrMAM/FlutterPackage_am_state/blob/main/LICENSE">MIT LICENCE</a></p>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="am_state">
+  <span class="name"><a href="am_state/am_state-library.html">am_state</a></span> 
+
+</dt>
+<dd> 
+</dd>
+
+        </dl>
+      </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="https://github.com/AmrMAM/FlutterPackage_am_state.git">am_state package</a></li>
+</ol>
+
+
+    <h5 class="hidden-xs"><span class="package-name">am_state</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="am_state/am_state-library.html">am_state</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    am_state
+      0.0.3+1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+
