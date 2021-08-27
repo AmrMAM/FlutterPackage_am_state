@@ -10,7 +10,7 @@
 <img src="https://img.shields.io/github/languages/top/AmrMAM/FlutterPackage_am_state" />
 
 # am_state
-#### A state-management and data providing library. 
+#### A state-management and data providing library. (Fast - Safe - Easy)
 ### `This lib gives (AmDataProvider<T>) as data provider and (AmRefreshWidget<T>) as wrapper to the widgets that must be changed when provider data changed.`
 
 ## Getting Started:
