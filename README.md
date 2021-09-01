@@ -91,7 +91,24 @@ class Example extends StatelessWidget {
     };
 
 ```
+### To initialize function trigger:
+```Dart
+final listener = AmFunctionTrigger<int>(
+  amDataProvider: AmDataProvider<int>.of('providerId'),
+  function: (value){ ... some code ... }
+);
+listener.start;   // You need to use this line anywhere 
+```
 
+### To cancel function trigger listening:
+```Dart
+listener.cancel();
+```
+
+### To reactivate the listener:
+```Dart
+listener.activate();
+```
 ### Please star my repo and follow me 😍
 https://github.com/AmrMAM/FlutterPackage_am_state
 

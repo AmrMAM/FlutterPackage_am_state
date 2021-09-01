@@ -8,7 +8,10 @@ clean unneeded files
 fixed type error of accessing data
 
 ## 0.0.3
-Adding future: Using one provider for multiple (RefreshWidget)s
+Adding feature: Using one provider for multiple (RefreshWidget)s
 
 ## 0.0.3+1
 Adding Comments, Documentation, Example
+
+## 0.0.4
+Adding feature: FunctionTriggers => Fires a function when its provider data is changed
