@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
@@ -10,7 +9,7 @@
 
   
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&amp;display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   
   <link rel="stylesheet" href="../static-assets/github.css?v1">
@@ -21,8 +20,7 @@
 </head>
 
 
-<body data-base-href="../"
-      data-using-base-href="false">
+<body data-base-href="../" data-using-base-href="false">
 
 <div id="overlay-under-drawer"></div>
 
@@ -34,14 +32,14 @@
   </ol>
   <div class="self-name">am_state</div>
   <form class="search navbar-right" role="search">
-    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+    <div class="tt-wrapper"><input type="text" autocomplete="off" readonly="true" spellcheck="false" tabindex="-1" class="typeahead tt-hint"><input type="text" id="search-box" autocomplete="off" class="form-control typeahead tt-input" placeholder="Search API Docs" spellcheck="false"><div role="listbox" aria-expanded="false" class="tt-menu" style="display: none;"><div class="tt-elements"></div></div></div>
   </form>
 </header>
 
 <main>
 
 
-  <div id="dartdoc-main-content" class="main-content">
+  <div id="dartdoc-main-content" class="main-content" style="visibility: visible;">
       <div>
 <h1><span class="kind-library">am_state</span> library 
     <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
@@ -61,7 +59,15 @@
 </dt>
 <dd>
   A data provider accessed in the whole program if it's created with id.
-You can access its data by <a href="../am_state/AmDataProvider-class.html">AmDataProvider&lt;T&gt;.of("providerId").data</a> 
+You can access its data by  
+</dd>
+
+        <dt id="AmFunctionTrigger">
+  <span class="name "><a href="../am_state/AmFunctionTrigger-class.html">AmFunctionTrigger</a><span class="signature">&lt;<wbr><span class="type-parameter">T</span>&gt;</span></span> 
+
+</dt>
+<dd>
+  Fires a function when the given provider data is changed 
 </dd>
 
         <dt id="AmRefreshWidget">
@@ -80,15 +86,29 @@ You can access its data by <a href="../am_state/AmDataProvider-class.html">AmDat
 
 
 
+    <section class="summary offset-anchor" id="enums">
+      <h2>Enums</h2>
+
+      <dl>
+        <dt id="ProviderDoFirst">
+  <span class="name "><a href="../am_state/ProviderDoFirst.html">ProviderDoFirst</a></span> 
+
+</dt>
+<dd>
+   
+</dd>
+
+      </dl>
+    </section>
 
 
 
   </div> <!-- /.main-content -->
 
-  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left" style="visibility: visible;">
     <header id="header-search-sidebar" class="hidden-l">
   <form class="search-sidebar" role="search">
-    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+    <div class="tt-wrapper"><input type="text" autocomplete="off" readonly="true" spellcheck="false" tabindex="-1" class="typeahead tt-hint"><input type="text" id="search-sidebar" autocomplete="off" class="form-control typeahead tt-input" placeholder="Search API Docs" spellcheck="false"><div role="listbox" aria-expanded="false" class="tt-menu" style="display: none;"><div class="tt-elements"></div></div></div>
   </form>
 </header>
 
@@ -106,11 +126,12 @@ You can access its data by <a href="../am_state/AmDataProvider-class.html">AmDat
 
   </div>
 
-  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right" style="visibility: visible;">
     <h5>am_state library</h5>
     <ol>
   <li class="section-title"><a href="../am_state/am_state-library.html#classes">Classes</a></li>
   <li><a href="../am_state/AmDataProvider-class.html">AmDataProvider</a></li>
+  <li><a href="../am_state/AmFunctionTrigger-class.html">AmFunctionTrigger</a></li>
   <li><a href="../am_state/AmRefreshWidget-class.html">AmRefreshWidget</a></li>
 
 
@@ -118,6 +139,8 @@ You can access its data by <a href="../am_state/AmDataProvider-class.html">AmDat
 
 
 
+  <li class="section-title"><a href="../am_state/am_state-library.html#enums">Enums</a></li>
+  <li><a href="../am_state/ProviderDoFirst.html">ProviderDoFirst</a></li>
 
 
 </ol>
@@ -129,7 +152,7 @@ You can access its data by <a href="../am_state/AmDataProvider-class.html">AmDat
 <footer>
   <span class="no-break">
     am_state
-      0.0.3+1
+      1.0.1
   </span>
 
   
@@ -142,7 +165,47 @@ You can access its data by <a href="../am_state/AmDataProvider-class.html">AmDat
 
 
 
-</body>
+<!-- Code injected by live-server -->
+<script type="text/javascript">
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 
+
+
+</body></html>
 </html>
 

@@ -1,15 +1,16 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 
 enum ProviderDoFirst {
+  /// Updates [AmRefreshWidget]s frist then Update [AmFunctionTrigger]s
   UpdateStatesFirst,
+
+  /// Updates [AmFunctionTrigger]s frist then Update [AmRefreshWidget]s
   FireTriggerFunctionFirst,
 }
 
 /// A wrapper for widgets that must be changed as its provider data is changed.
 class AmRefreshWidget<T> extends StatefulWidget {
   /// A wrapper for widgets that must be changed as its provider data is changed.
-
   const AmRefreshWidget(
       {Key? key, required this.builder, required this.amDataProvider})
       : super(key: key);
@@ -18,7 +19,7 @@ class AmRefreshWidget<T> extends StatefulWidget {
   final AmDataProvider<T> amDataProvider;
 
   /// A function gives you context and the provider data as parameters and returns the child of this widget(AmRefreshWidget).
-  final Widget Function(BuildContext ctx, T? value) builder;
+  final Widget Function(BuildContext ctx, T? value, _AmTools tools) builder;
 
   @override
   _AmRefreshStateState<T> createState() => _AmRefreshStateState<T>();
@@ -26,6 +27,29 @@ class AmRefreshWidget<T> extends StatefulWidget {
 
 class _AmRefreshStateState<T> extends State<AmRefreshWidget<T>> {
   final key = UniqueKey();
+  Map<int, _AmState> _states = {};
+
+  _AmState<K> _getState<K>({required int id, required K initialValue}) {
+    if (_states[id] != null) {
+      return _states[id] as _AmState<K>;
+    } else {
+      _states[id] = _AmState<K>(value: initialValue);
+      return _states[id] as _AmState<K>;
+    }
+  }
+
+  _AmState<K?> _getStateNullable<K>({required int id, K? initialValue}) {
+    if (_states[id] != null) {
+      return _states[id] as _AmState<K?>;
+    } else {
+      if (initialValue != null) {
+        _states[id] = _AmState<K?>(value: initialValue);
+      } else {
+        _states[id] = _AmState<K?>(value: null);
+      }
+      return _states[id] as _AmState<K?>;
+    }
+  }
 
   @override
   void initState() {
@@ -35,7 +59,16 @@ class _AmRefreshStateState<T> extends State<AmRefreshWidget<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, widget.amDataProvider._data);
+    return widget.builder(
+      context,
+      widget.amDataProvider._data,
+      _AmTools(
+        statePoint: _getState,
+        nullableStatePoint: _getStateNullable,
+        refresh: widget.amDataProvider._refresh,
+        key: key,
+      ),
+    );
   }
 
   @override
@@ -71,11 +104,39 @@ class AmFunctionTrigger<T> {
   void get start => false;
 }
 
+class _AmState<T> {
+  T value;
+  _AmState({required this.value});
+}
+
+class _AmTools {
+  /// Save or Get a state variable related to this widget
+  final _AmState<T> Function<T>({required int id, required T initialValue})
+      statePoint;
+
+  /// Save or Get a nullable state variable related to this widget
+  final _AmState<T?> Function<T>({required int id, T? initialValue})
+      nullableStatePoint;
+
+  /// Fires all TriggerFunctions and Refreshes all (RefreshWidget)s related to the given provider
+  /// Considering all StatePoints
+  final void Function() refresh;
+
+  final UniqueKey key;
+  _AmTools({
+    required this.statePoint,
+    required this.key,
+    required this.nullableStatePoint,
+    required this.refresh,
+  });
+}
+
 /// A data provider accessed in the whole program if it's created with id.
 /// You can access its data by [AmDataProvider<T>.of("providerId").data]
 class AmDataProvider<T> {
   static final Map<String, AmDataProvider> _instances = {};
   T? _data;
+  T? _prvData;
   final List<_AmRefreshStateState<T>> _callSetState = [];
   final Map<Key, AmFunctionTrigger<T>> _callFunctions = {};
 
@@ -89,15 +150,24 @@ class AmDataProvider<T> {
     _refresh();
   }
 
-  /// Changes the provider data then (RefreshWidget)s related to this provider are refreshed.
+  /// Changes the provider data then [RefreshWidget]s related to this provider are refreshed.
   set data(T? value) {
+    _prvData = _data;
     _data = value;
     _refresh();
   }
 
   /// Changes the provider data only (No [RefreshWidget] is refreshed).
-  set silentDataSet(T? value) => _data = value;
+  set silentDataSet(T? value) {
+    _prvData = _data;
+    _data = value;
+  }
+
+  /// To get the data stored in the provider.
   T? get data => _data;
+
+  /// To get the data stored in the provider just before the last update.
+  T? get previousData => _prvData;
 
   /// Fires all TriggerFunctions and Refreshes all (RefreshWidget)s related to this provider.
   void refresh() => _refresh();
@@ -109,25 +179,33 @@ class AmDataProvider<T> {
       }
       if (_callSetState.isNotEmpty) {
         _callSetState.forEach((f) {
-          Timer.periodic(Duration(milliseconds: 5), (_) {
-            if (f.mounted) {
-              _.cancel();
-              // ignore: invalid_use_of_protected_member
-              f.setState(() {});
-            }
-          });
+          // Timer.periodic(Duration(milliseconds: 5), (_) {
+          //   if (f.mounted) {
+          //     _.cancel();
+          //     // ignore: invalid_use_of_protected_member
+          //     f.setState(() {});
+          //   }
+          // });
+          if (f.mounted) {
+            // ignore: invalid_use_of_protected_member
+            f.setState(() {});
+          }
         });
       }
     } else {
       if (_callSetState.isNotEmpty) {
         _callSetState.forEach((f) {
-          Timer.periodic(Duration(milliseconds: 5), (_) {
-            if (f.mounted) {
-              _.cancel();
-              // ignore: invalid_use_of_protected_member
-              f.setState(() {});
-            }
-          });
+          // Timer.periodic(Duration(milliseconds: 5), (_) {
+          //   if (f.mounted) {
+          //     _.cancel();
+          //     // ignore: invalid_use_of_protected_member
+          //     f.setState(() {});
+          //   }
+          // });
+          if (f.mounted) {
+            // ignore: invalid_use_of_protected_member
+            f.setState(() {});
+          }
         });
       }
       if (_callFunctions.isNotEmpty) {

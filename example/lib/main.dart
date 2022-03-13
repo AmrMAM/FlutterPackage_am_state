@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return AmRefreshWidget<MaterialColor>(
       amDataProvider: AmDataProvider<MaterialColor>.of('primarySwatchColor'),
       // amDataProvider: colorProvider, // or you can get the provider by name
-      builder: (ctx, value) => MaterialApp(
+      builder: (ctx, value, tools) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'example',
         home: Home(),
@@ -56,7 +56,7 @@ class Home extends StatelessWidget {
             ),
             AmRefreshWidget<int>(
               amDataProvider: intProvider,
-              builder: (ctx, value) {
+              builder: (ctx, value, tools) {
                 return Text('$value');
               },
             ),

@@ -91,6 +91,18 @@ class Example extends StatelessWidget {
     };
 
 ```
+
+### To compare the data in the provider with data just before the last change:
+```Dart
+
+    if(dataProvider.data == dataProvider.previousData){
+      //...Some Code...
+    }else{
+      //...Some Code...
+    }
+
+```
+
 ### To initialize function trigger:
 ```Dart
 final listener = AmFunctionTrigger<int>(
@@ -114,4 +126,4 @@ https://github.com/AmrMAM/FlutterPackage_am_state
 
 
 ## <font color='6776FF'>Licence</font>
-[MIT LICENCE](https://github.com/AmrMAM/FlutterPackage_am_state/blob/main/LICENSE)
+[BSD-3-Clause LICENCE](https://github.com/AmrMAM/FlutterPackage_am_state/blob/main/LICENSE)

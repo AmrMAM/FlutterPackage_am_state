@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="generator" content="made with love by dartdoc 2.0.0">
+  <meta name="generator" content="made with love by dartdoc 5.0.1">
   <meta name="description" content="am_state API docs, for the Dart programming language.">
   <title>am_state - Dart API docs</title>
 
@@ -52,9 +52,10 @@
 <a href="https://github.com/AmrMAM/FlutterPackage_am_state/network"><img src="https://img.shields.io/github/forks/AmrMAM/FlutterPackage_am_state" alt="GitHub forks"></a>
 <a href="https://github.com/AmrMAM/FlutterPackage_am_state/stargazers"><img src="https://img.shields.io/github/stars/AmrMAM/FlutterPackage_am_state" alt="GitHub stars"></a>
 <a href="https://github.com/AmrMAM/FlutterPackage_am_state/blob/main/LICENSE"><img src="https://img.shields.io/github/license/AmrMAM/FlutterPackage_am_state" alt="GitHub license"></a>
+<img src="https://img.shields.io/github/languages/count/AmrMAM/FlutterPackage_am_state">
 <img src="https://img.shields.io/github/languages/top/AmrMAM/FlutterPackage_am_state"></p>
 <h1 id="am_state">am_state</h1>
-<h4 id="a-state-management-and-data-providing-library">A state-management and data providing library. (Fast - Safe - Easy)</h4>
+<h4 id="a-state-management-and-data-providing-library-fast---safe---easy">A state-management and data providing library. (Fast - Safe - Easy)</h4>
 <h3 id="this-lib-gives-amdataprovidert-as-data-provider-and-amrefreshwidgett-as-wrapper-to-the-widgets-that-must-be-changed-when-provider-data-changed"><code>This lib gives (AmDataProvider&lt;T&gt;) as data provider and (AmRefreshWidget&lt;T&gt;) as wrapper to the widgets that must be changed when provider data changed.</code></h3>
 <h2 id="getting-started">Getting Started:</h2>
 <h3 id="to-import-am_state">To import am_state:</h3>
@@ -119,10 +120,32 @@ final dataProvider = AmDataProvider&lt;int&gt;();
     };
 
 </code></pre>
+<h3 id="to-compare-the-data-in-the-provider-with-data-just-before-the-last-change">To compare the data in the provider with data just before the last change:</h3>
+<pre class="language-Dart"><code class="language-Dart">
+    if(dataProvider.data == dataProvider.previousData){
+      //...Some Code...
+    }else{
+      //...Some Code...
+    }
+
+</code></pre>
+<h3 id="to-initialize-function-trigger">To initialize function trigger:</h3>
+<pre class="language-Dart"><code class="language-Dart">final listener = AmFunctionTrigger&lt;int&gt;(
+  amDataProvider: AmDataProvider&lt;int&gt;.of('providerId'),
+  function: (value){ ... some code ... }
+);
+listener.start;   // You need to use this line anywhere 
+</code></pre>
+<h3 id="to-cancel-function-trigger-listening">To cancel function trigger listening:</h3>
+<pre class="language-Dart"><code class="language-Dart">listener.cancel();
+</code></pre>
+<h3 id="to-reactivate-the-listener">To reactivate the listener:</h3>
+<pre class="language-Dart"><code class="language-Dart">listener.activate();
+</code></pre>
 <h3 id="please-star-my-repo-and-follow-me-">Please star my repo and follow me 😍</h3>
 <p><a href="https://github.com/AmrMAM/FlutterPackage_am_state">https://github.com/AmrMAM/FlutterPackage_am_state</a></p>
 <h2 id="font-color6776fflicencefont"><font color="6776FF">Licence</font></h2>
-<p><a href="https://github.com/AmrMAM/FlutterPackage_am_state/blob/main/LICENSE">MIT LICENCE</a></p>
+<p><a href="https://github.com/AmrMAM/FlutterPackage_am_state/blob/main/LICENSE">BSD-3-Clause LICENCE</a></p>
 </section>
 
 
@@ -169,7 +192,7 @@ final dataProvider = AmDataProvider&lt;int&gt;();
 <footer>
   <span class="no-break">
     am_state
-      0.0.3+1
+      1.0.1
   </span>
 
   
