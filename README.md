@@ -121,6 +121,27 @@ listener.cancel();
 ```Dart
 listener.activate();
 ```
+
+### To control the [AmRefreshWidget] and adding states to it:
+```Dart
+child: AmRefreshWidget<int>(
+  amDataProvider: dataProvider,
+  builder: (ctx, value) {
+    /// This controller you may send as a parameter anyway but you have rarely to do this_
+    /// Because the [AmDataProvider] may do the same goal.
+    var controller = AmRefreshWidgetController.of(ctx);
+
+    /// When this code block is called this variable will have the last value.
+    /// if it is the frist time to call this code, this variable will have 5 as initial value.
+    var intState = controller.statePoint<int>(id: 1, initialValue: 5);
+    
+    ///Dummy Code to use the statePoint variable.
+    intState.value = value! * (intState.value);
+    return Text('${intState.value}');
+  },
+),
+```
+
 ### Please star my repo and follow me 😍
 https://github.com/AmrMAM/FlutterPackage_am_state
 

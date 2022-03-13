@@ -19,4 +19,4 @@ Adding feature: FunctionTriggers => Fires a function when its provider data is c
 ## 1.0.1
 New technique of working but the same way to code.
 Adding feature: Ability to get the data stored in the provider just before the last update.
-Adding feature: Adding [statePoint]s to the [AmRefreshWidget].
+Adding feature: Adding [statePoint]s to the [AmRefreshWidget] and ability to get the [AmRefreshWidgetController].

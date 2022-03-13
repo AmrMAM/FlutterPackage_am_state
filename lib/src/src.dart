@@ -19,7 +19,7 @@ class AmRefreshWidget<T> extends StatefulWidget {
   final AmDataProvider<T> amDataProvider;
 
   /// A function gives you context and the provider data as parameters and returns the child of this widget(AmRefreshWidget).
-  final Widget Function(BuildContext ctx, T? value, _AmTools tools) builder;
+  final Widget Function(BuildContext ctx, T? value) builder;
 
   @override
   _AmRefreshStateState<T> createState() => _AmRefreshStateState<T>();
@@ -54,6 +54,13 @@ class _AmRefreshStateState<T> extends State<AmRefreshWidget<T>> {
   @override
   void initState() {
     widget.amDataProvider._callSetState.add(this);
+    AmRefreshWidgetController._instances[context] =
+        AmRefreshWidgetController._inst(
+      statePoint: _getState,
+      key: key,
+      nullableStatePoint: _getStateNullable,
+      refresh: widget.amDataProvider._refresh,
+    );
     super.initState();
   }
 
@@ -62,18 +69,14 @@ class _AmRefreshStateState<T> extends State<AmRefreshWidget<T>> {
     return widget.builder(
       context,
       widget.amDataProvider._data,
-      _AmTools(
-        statePoint: _getState,
-        nullableStatePoint: _getStateNullable,
-        refresh: widget.amDataProvider._refresh,
-        key: key,
-      ),
     );
   }
 
   @override
   void dispose() {
     widget.amDataProvider._callSetState.removeWhere((e) => e.key == key);
+    // AmRefreshWidgetController._instances
+    //     .removeWhere((key, value) => key == context);
     super.dispose();
   }
 }
@@ -109,7 +112,11 @@ class _AmState<T> {
   _AmState({required this.value});
 }
 
-class _AmTools {
+/// Gets The Controller for the [AmRefreshWidget].
+/// you may add state variables or Refresh the current state or ..etc.
+class AmRefreshWidgetController {
+  static final Map<BuildContext, AmRefreshWidgetController> _instances = {};
+
   /// Save or Get a state variable related to this widget
   final _AmState<T> Function<T>({required int id, required T initialValue})
       statePoint;
@@ -123,7 +130,12 @@ class _AmTools {
   final void Function() refresh;
 
   final UniqueKey key;
-  _AmTools({
+
+  /// Gets The Controller for the [AmRefreshWidget] ==> Use the context given in the builder.
+  /// if the context is not for an activated [AmRefreshWidget] there will be an error.
+  factory AmRefreshWidgetController.of(BuildContext ctx) => _instances[ctx]!;
+
+  AmRefreshWidgetController._inst({
     required this.statePoint,
     required this.key,
     required this.nullableStatePoint,

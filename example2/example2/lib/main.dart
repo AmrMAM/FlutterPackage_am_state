@@ -42,9 +42,11 @@ final objList = AmDataProvider(
         children: [
           AmRefreshWidget<int>(
             amDataProvider: amProviders[i],
-            builder: (ctx, value, tools) {
-              var factor = tools.nullableStatePoint<int>(id: 1);
-              factor.value = value! * (factor.value ?? 1);
+            builder: (ctx, value) {
+              var factor = AmRefreshWidgetController.of(ctx)
+                  .statePoint<int>(id: 1, initialValue: 5);
+
+              factor.value = value! * (factor.value);
               return Text('${factor.value}');
             },
           ),
@@ -67,15 +69,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AmRefreshWidget<MaterialColor>(
-      amDataProvider: AmDataProvider<MaterialColor>.of('primarySwatchColor'),
-      // amDataProvider: colorProvider, // or you can get the provider by name
-      builder: (ctx, value, tools) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'example',
-        home: const Home(),
-        theme: ThemeData(primarySwatch: value),
-      ),
-    );
+        amDataProvider: AmDataProvider<MaterialColor>.of('primarySwatchColor'),
+        // amDataProvider: colorProvider, // or you can get the provider by name
+        builder: (ctx, value) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'example',
+            home: const Home(),
+            theme: ThemeData(primarySwatch: value),
+          );
+        });
   }
 }
 
@@ -92,7 +95,9 @@ class Home extends StatelessWidget {
             child: SingleChildScrollView(
           child: AmRefreshWidget<List<Column>>(
             amDataProvider: objList,
-            builder: (ctx, value, tools) => Column(children: value!),
+            builder: (ctx, value) {
+              return Column(children: value!);
+            },
           ),
         )));
   }

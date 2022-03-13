@@ -142,6 +142,24 @@ listener.start;   // You need to use this line anywhere
 <h3 id="to-reactivate-the-listener">To reactivate the listener:</h3>
 <pre class="language-Dart"><code class="language-Dart">listener.activate();
 </code></pre>
+<h3 id="to-control-the-amrefreshwidget-and-adding-states-to-it">To control the <a href="am_state/AmRefreshWidget-class.html">AmRefreshWidget</a> and adding states to it:</h3>
+<pre class="language-Dart"><code class="language-Dart">child: AmRefreshWidget&lt;int&gt;(
+  amDataProvider: dataProvider,
+  builder: (ctx, value) {
+    /// This controller you may send as a parameter anyway but you have rarely to do this_
+    /// Because the [AmDataProvider] may do the same goal.
+    var controller = AmRefreshWidgetController.of(ctx);
+
+    /// When this code block is called this variable will have the last value.
+    /// if it is the frist time to call this code, this variable will have 5 as initial value.
+    var intState = controller.statePoint&lt;int&gt;(id: 1, initialValue: 5);
+    
+    ///Dummy Code to use the statePoint variable.
+    intState.value = value! * (intState.value);
+    return Text('${intState.value}');
+  },
+),
+</code></pre>
 <h3 id="please-star-my-repo-and-follow-me-">Please star my repo and follow me 😍</h3>
 <p><a href="https://github.com/AmrMAM/FlutterPackage_am_state">https://github.com/AmrMAM/FlutterPackage_am_state</a></p>
 <h2 id="font-color6776fflicencefont"><font color="6776FF">Licence</font></h2>
