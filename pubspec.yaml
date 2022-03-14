@@ -1,6 +1,6 @@
 name: am_state
 description: A state-management and data providing library. this lib gives (AmDataProvider<T>) as data provider and (AmRefreshWidget<T>) as wrapper to widgets.
-version: 1.0.1
+version: 1.0.1+1
 homepage: https://github.com/AmrMAM/FlutterPackage_am_state.git
 autor: Amr Mostafa (Amr_MAM)
 

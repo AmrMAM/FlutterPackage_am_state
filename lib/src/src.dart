@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 enum ProviderDoFirst {
@@ -191,33 +193,25 @@ class AmDataProvider<T> {
       }
       if (_callSetState.isNotEmpty) {
         _callSetState.forEach((f) {
-          // Timer.periodic(Duration(milliseconds: 5), (_) {
-          //   if (f.mounted) {
-          //     _.cancel();
-          //     // ignore: invalid_use_of_protected_member
-          //     f.setState(() {});
-          //   }
-          // });
-          if (f.mounted) {
-            // ignore: invalid_use_of_protected_member
-            f.setState(() {});
-          }
+          Timer.periodic(Duration(milliseconds: 5), (_) {
+            if (f.mounted) {
+              _.cancel();
+              // ignore: invalid_use_of_protected_member
+              f.setState(() {});
+            }
+          });
         });
       }
     } else {
       if (_callSetState.isNotEmpty) {
         _callSetState.forEach((f) {
-          // Timer.periodic(Duration(milliseconds: 5), (_) {
-          //   if (f.mounted) {
-          //     _.cancel();
-          //     // ignore: invalid_use_of_protected_member
-          //     f.setState(() {});
-          //   }
-          // });
-          if (f.mounted) {
-            // ignore: invalid_use_of_protected_member
-            f.setState(() {});
-          }
+          Timer.periodic(Duration(milliseconds: 5), (_) {
+            if (f.mounted) {
+              _.cancel();
+              // ignore: invalid_use_of_protected_member
+              f.setState(() {});
+            }
+          });
         });
       }
       if (_callFunctions.isNotEmpty) {
