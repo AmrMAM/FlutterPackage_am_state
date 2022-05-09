@@ -102,6 +102,25 @@ class Example extends StatelessWidget {
     }
 
 ```
+### To save and get data using AmMemory (Data go out when the program is closed):
+### This feature is just to make data accessing more easier in the whole program files.
+```Dart
+
+  /// To save an object
+  object.amSave(id);
+  'Amr Mostafa'.amSave('userName123');              // Example
+
+  /// To get the saved object if null the defaultObject is Returned
+  /// Note: the saved object and the default object must be in the same type
+  var data = defaultObject.amGet(id);
+  var userName = 'Not found'.amGet('userName123');  //Example
+
+  /// OR you can get saved data in that way
+  /// Null is Returned if none is saved.
+  var data = AmMemory.amGetIfSaved<DataType>(id);
+  var userName = AmMemory.amGetIfSaved<String>('userName123') ?? 'Not found';   // Example
+
+```
 
 ### To initialize function trigger:
 ```Dart

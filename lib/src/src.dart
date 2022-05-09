@@ -268,3 +268,58 @@ class AmDataProvider<T> {
     // }
   }
 }
+
+extension ToBool on String {
+  /// to convert a string to boolean;
+  /// Returns [true] if the Lower Case of this variable == 'true';
+  bool toBool() {
+    return this.toLowerCase() == 'true';
+  }
+}
+
+extension AmFormating on DateTime {
+  /// Returns the DateTime in this format [2022/05/15];
+  String amDateFormatYYMMDD() {
+    final _dte = this;
+    final _mnth = _dte.month <= 9 ? '0${_dte.month}' : '${_dte.month}';
+    final _day = _dte.day <= 9 ? '0${_dte.day}' : '${_dte.day}';
+
+    return '${_dte.year}/$_mnth/$_day';
+  }
+
+  /// Returns the DateTime in this format [05:30:56];
+  String amTimeFormatHHMMSS() {
+    final _hh = this.hour <= 9 ? '0${this.hour}' : '${this.hour}';
+    final _mm = this.minute <= 9 ? '0${this.minute}' : '${this.minute}';
+    final _ss = this.second <= 9 ? '0${this.second}' : '${this.second}';
+
+    return '$_hh:$_mm:$_ss';
+  }
+}
+
+extension AmMemory<T> on T {
+  static final _stmem = {};
+
+  /// Returns the object saved and associated with this id;
+  /// if nothing is saved it Returns this parent object;
+  T amGet(id) {
+    if (_stmem[id] == null) {
+      return this;
+    } else {
+      return _stmem[id];
+    }
+  }
+
+  /// to Get the saved object associated with this id;
+  /// Returns null if there is nothing saved;
+  static K? amGetIfSaved<K>(id) {
+    if (_stmem[id] == null) {
+      return null;
+    } else {
+      return _stmem[id];
+    }
+  }
+
+  /// to Save this object with an id;
+  void amSave(id) => _stmem[id] = this;
+}
