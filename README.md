@@ -23,13 +23,13 @@ import 'package:am_state/am_state.dart';
 ```
 
 ## For well-organized code; we need need to create 3 dart files 
-#### The first dart file is for UI and we use [AmStateWidget]
-#### The second dart file is for State
-##### => we create a normal class which has all properity we need to display in the UI page
-#### The third file is for Controller Class
-##### => we create a class for the controller extended from [AmController<State_Class>]
+ - ### The first dart file is for UI and we use [AmStateWidget]
+ - ### The second dart file is for State
+ .......... `we need to create a normal class which has all properity we need to display in the UI page`
+ - ### The third file is for Controller Class
+ .......... `we need to create a class for the controller extended from [AmController<State_Class>]`
 
-### It is time for an easy example for the home page
+## It is time for an easy example for the home page
 #### The first step ==> Creating UI dart file 'home_ui.dart' and adding this code
 ```Dart 
 class MyHomePage extends StatelessWidget {

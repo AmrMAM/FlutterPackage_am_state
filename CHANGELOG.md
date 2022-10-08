@@ -24,3 +24,9 @@ Adding feature: Adding [statePoint]s to the [AmRefreshWidget] and ability to get
 ## 2.0.1
 Adding feature: Adding [AmMemory] extention class that provides data access;
     Save or Get Data from everywhere using [ID];
+
+## 3.0.0
+Adding feature: Adding a new technique for clean code;
+    each page is separated into three files (UI, State, Controller)
+Adding feature: Adding [AmChannel] the data channel class;
+    to get and send data anywhere in the application by a specified route
