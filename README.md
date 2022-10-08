@@ -22,6 +22,125 @@
 import 'package:am_state/am_state.dart';
 ```
 
+## For well-organized code; we need need to create 3 dart files 
+#### The first dart file is for UI and we use [AmStateWidget]
+#### The second dart file is for State
+##### => we create a normal class which has all properity we need to display in the UI page
+#### The third file is for Controller Class
+##### => we create a class for the controller extended from [AmController<State_Class>]
+
+### It is time for an easy example for the home page
+#### The first step ==> Creating UI dart file 'home_ui.dart' and adding this code
+```Dart 
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AmStateWidget(
+      amController: HomeController(HomeState()),
+      builder: (ctx, am) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Hi Am State App Test'),
+          ),
+          body: ListView(
+            padding: const EdgeInsets.all(8),
+            children: [
+              Text(
+                'Wow ${am.state.title}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
+              Text(
+                'num ---- ${am.state.number}',
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red,
+                ),
+              ),
+            ],
+          ),
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () => am.increaseby1(),
+                child: const Icon(Icons.plus_one),
+              ),
+              ElevatedButton(
+                onPressed: () => am.decreaseby1(),
+                child: const Icon(Icons.remove),
+              ),
+              ElevatedButton(
+                onPressed: () => am.changeTitle(),
+                child: const Icon(Icons.change_circle),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+```
+
+#### The second step ==> Creating State dart file 'home_state.dart' and adding this code
+```Dart
+class HomeState {
+  int number = 0;
+  String title = 'hello';
+}
+```
+
+#### The third step ==> Creating Controller dart file 'home_controller.dart' and adding this code
+```Dart
+class HomeController extends AmController<HomeState> {
+  HomeController(super.state);
+
+  void increaseby1() {
+    state.number++;
+    refresh();
+  }
+
+  void decreaseby1() {
+    state.number--;
+    refresh();
+  }
+
+  void changeTitle() {
+    state.title = '${state.title} Hi;\n';
+    refresh();
+  }
+}
+```
+#### And that is all you need to do to create a page in well-organized clean code
+## To Send And Get data by [AmChannel] in the whole app
+### To create a channel and save data in it
+```Dart
+    AmChannel<String>.of('/home/adminName').amSend = 'Amr Mostafa';
+```
+
+### To get the last value saved in a channel
+```Dart
+    print(AmChannel<String>.of('/home/adminName').amGet);
+```
+
+### To get the last previous value saved in a channel
+```Dart
+    print(AmChannel<String>.of('/home/adminName').amGetPrevious);
+```
+
+### To Delete the channel
+```Dart
+    AmChannel.of('/home/adminName').delete();
+```
+
+## For inner widgets working and [AmDataProvider] and [AmRefreshWidget]
 ### To initialize data provider:
 ```Dart
 final dataProvider = AmDataProvider<int>(
@@ -102,8 +221,9 @@ class Example extends StatelessWidget {
     }
 
 ```
+
 ### To save and get data using AmMemory (Data go out when the program is closed):
-### This feature is just to make data accessing more easier in the whole program files.
+#### This feature is just to make data accessing more easier in the whole program files.
 ```Dart
 
   /// To save an object

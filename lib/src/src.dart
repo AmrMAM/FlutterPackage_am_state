@@ -323,3 +323,116 @@ extension AmMemory<T> on T {
   /// to Save this object with an id;
   void amSave(id) => _stmem[id] = this;
 }
+
+//==============================================================================
+
+/// to create a data channel to send and recieve data in easy way in the whole app
+class AmChannel<T> {
+  static final _stmem = {};
+  T? _currentValue;
+  T? _previousValue;
+  final dynamic route;
+
+  AmChannel._internal(this.route);
+  factory AmChannel.of(route) {
+    if (_stmem[route] != null) {
+      return _stmem[route];
+    } else {
+      return AmChannel._internal(route);
+    }
+  }
+
+  /// to get the last value saved to this channel
+  T? get amGet => _currentValue;
+
+  /// to get the previous value saved to this channel
+  /// (just the value before the last value)
+  T? get amGetPrevious => _previousValue;
+
+  /// to set a value to the current channel route;
+  set amSend(T object) {
+    _previousValue = _currentValue;
+    _currentValue = object;
+    _stmem[route] = this;
+  }
+
+  /// to delete the channel for this route (to freeup memory)
+  void delete() => _stmem.remove(route);
+}
+
+/// A wrapper for widgets that must be changed as its controller [refresh] method is invoked.
+class AmStateWidget<T> extends StatefulWidget {
+  /// A wrapper for widgets that must be changed as its controller [refresh] method is invoked.
+  const AmStateWidget(
+      {Key? key, required this.builder, required this.amController})
+      : assert(amController is AmController),
+        super(key: key);
+
+  /// Takes [AmController] to refresh state if the [refresh] method is invoked.
+  final T amController;
+
+  /// A function gives you context and the controller with state as parameters and returns the widget you build.
+  final Widget Function(BuildContext ctx, T am) builder;
+
+  @override
+  _AmStateWstate<T> createState() => _AmStateWstate<T>();
+}
+
+class _AmStateWstate<T> extends State<AmStateWidget<T>> {
+  final key = UniqueKey();
+  T? _controller;
+
+  @override
+  void initState() {
+    // widget.amDataProvider._callSetState.add(this);
+    // AmRefreshWidgetController._instances[context] =
+    //     AmRefreshWidgetController._inst(
+    //   statePoint: _getState,
+    //   key: key,
+    //   nullableStatePoint: _getStateNullable,
+    //   refresh: widget.amDataProvider._refresh,
+    // );
+    _controller = widget.amController;
+    (_controller! as dynamic)._refresh = () => setState(() {});
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.builder(context, _controller!);
+  }
+
+  @override
+  void dispose() {
+    // widget.amDataProvider._callSetState.removeWhere((e) => e.key == key);
+    // AmRefreshWidgetController._instances
+    //     .removeWhere((key, value) => key == context);
+    super.dispose();
+  }
+}
+
+abstract class AmState<T> {
+  final T state;
+  AmState(this.state);
+}
+
+abstract class AmController<T> extends AmState<T> {
+  void Function()? _refresh;
+  AmController(T state) : super(state);
+
+  void Function() get refresh {
+    if (_refresh != null) {
+      return _refresh!;
+    } else {
+      return () {};
+    }
+  }
+}
+
+// class AmStateProvider<T, U> {
+//   final T controller<U>(){};
+//   final U state;
+
+//   AmStateProvider(this.controller)
+//       : state = (controller as AmController<U>).state;
+// }
