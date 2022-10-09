@@ -422,7 +422,10 @@ abstract class AmController<T> extends AmState<T> {
   void Function()? _refresh;
   AmController(T state) : super(state);
 
+  @protected
   void onInit() {}
+
+  @protected
   void onDispose() {}
 
   void Function() get refresh {
