@@ -394,6 +394,7 @@ class _AmStateWstate<T> extends State<AmStateWidget<T>> {
     // );
     _controller = widget.amController;
     (_controller! as dynamic)._refresh = () => setState(() {});
+    (_controller as dynamic).onInit();
     super.initState();
   }
 
@@ -407,6 +408,7 @@ class _AmStateWstate<T> extends State<AmStateWidget<T>> {
     // widget.amDataProvider._callSetState.removeWhere((e) => e.key == key);
     // AmRefreshWidgetController._instances
     //     .removeWhere((key, value) => key == context);
+    (_controller as dynamic).onDispose();
     super.dispose();
   }
 }
@@ -419,6 +421,9 @@ abstract class AmState<T> {
 abstract class AmController<T> extends AmState<T> {
   void Function()? _refresh;
   AmController(T state) : super(state);
+
+  void onInit() {}
+  void onDispose() {}
 
   void Function() get refresh {
     if (_refresh != null) {

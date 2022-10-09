@@ -30,3 +30,6 @@ Adding feature: Adding a new technique for clean code;
     each page is separated into three files (UI, State, Controller)
 Adding feature: Adding [AmChannel] the data channel class;
     to get and send data anywhere in the application by a specified route
+
+## 3.0.0+1
+Adding feature: onInit, onDispose functions to the controller
