@@ -22,7 +22,7 @@
 import 'package:am_state/am_state.dart';
 ```
 
-## For well-organized code; we need need to create 3 dart files 
+## For well-organized code; we need to create 3 dart files 
  - ### The first dart file is for UI and we use [AmStateWidget]
  - ### The second dart file is for State
  .......... `we need to create a normal class which has all properity we need to display in the UI page`

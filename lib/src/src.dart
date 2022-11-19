@@ -295,6 +295,19 @@ extension AmFormating on DateTime {
 
     return '$_hh:$_mm:$_ss';
   }
+
+  /// Returns the DateTime in this format [05:30 am];
+  String amTimeFormatHHMMPMam() {
+    bool isPM = this.hour >= 12;
+    int hour = isPM ? this.hour - 12 : this.hour;
+    hour = hour == 0 ? 12 : hour;
+
+    final _hh = hour <= 9 ? '0${hour}' : '${hour}';
+    final _mm = this.minute <= 9 ? '0${this.minute}' : '${this.minute}';
+    // final _ss = this.second <= 9 ? '0${this.second}' : '${this.second}';
+
+    return '$_hh:$_mm ${isPM ? 'PM' : 'AM'}';
+  }
 }
 
 extension AmMemory<T> on T {
