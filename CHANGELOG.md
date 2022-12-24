@@ -33,3 +33,6 @@ Adding feature: Adding [AmChannel] the data channel class;
 
 ## 3.0.0+1
 Adding feature: onInit, onDispose functions to the controller
+
+## 3.1.0
+Adding feature: Adding Event Actions in [AmChannel].

@@ -345,13 +345,17 @@ class AmChannel<T> {
   T? _currentValue;
   T? _previousValue;
   final dynamic route;
+  final Map<String, void Function(dynamic)> _recEvents = {};
+  final Map<String, void Function(dynamic)> _changeEvents = {};
 
   AmChannel._internal(this.route);
   factory AmChannel.of(route) {
     if (_stmem[route] != null) {
       return _stmem[route];
     } else {
-      return AmChannel._internal(route);
+      final me = AmChannel<T>._internal(route);
+      _stmem[route] = me;
+      return me;
     }
   }
 
@@ -366,7 +370,52 @@ class AmChannel<T> {
   set amSend(T object) {
     _previousValue = _currentValue;
     _currentValue = object;
-    _stmem[route] = this;
+
+    // for recieve events
+    for (var ev in _recEvents.values) {
+      try {
+        ev(object);
+      } catch (e) {
+        print(e);
+      }
+    }
+
+    // for changing current value events
+    if (_currentValue != _previousValue) {
+      for (var ev in _changeEvents.values) {
+        try {
+          ev(object);
+        } catch (e) {
+          print(e);
+        }
+      }
+    }
+  }
+
+  /// to add an event for [On Recieve a value].
+  /// returns the event id.
+  String addEventOnRecieve(Function(dynamic) event) {
+    final id = DateTime.now().microsecondsSinceEpoch.toString();
+    _recEvents[id] = event;
+    return id;
+  }
+
+  /// to remove an event for [On Recieve a value].
+  void removeEventOnRecieve(eventID) {
+    _recEvents.remove(eventID);
+  }
+
+  /// to add an event for [On Change the current value].
+  /// returns the event id.
+  String addEventOnChange(Function(dynamic) event) {
+    final id = DateTime.now().microsecondsSinceEpoch.toString();
+    _changeEvents[id] = event;
+    return id;
+  }
+
+  /// to remove an event for [On Change the current value].
+  void removeEventOnChange(eventID) {
+    _changeEvents.remove(eventID);
   }
 
   /// to delete the channel for this route (to freeup memory)
