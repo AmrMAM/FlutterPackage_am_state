@@ -507,3 +507,15 @@ abstract class AmController<T> extends AmState<T> {
 //   AmStateProvider(this.controller)
 //       : state = (controller as AmController<U>).state;
 // }
+
+abstract class AmTools {
+  /// to generate unique id in milli seconds resolution
+  static String genUniqueId() {
+    return DateTime.now().millisecondsSinceEpoch.toString();
+  }
+
+  /// to generate unique id in micro seconds resolution
+  static String genUniqueIdMicro() {
+    return DateTime.now().microsecondsSinceEpoch.toString();
+  }
+}
