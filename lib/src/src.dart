@@ -372,23 +372,27 @@ class AmChannel<T> {
     _currentValue = object;
 
     // for recieve events
-    for (var ev in _recEvents.values) {
-      try {
-        ev(object);
-      } catch (e) {
-        print(e);
-      }
-    }
-
-    // for changing current value events
-    if (_currentValue != _previousValue) {
-      for (var ev in _changeEvents.values) {
+    try {
+      for (var ev in _recEvents.values) {
         try {
           ev(object);
         } catch (e) {
           print(e);
         }
       }
+    } catch (e) {}
+
+    // for changing current value events
+    if (_currentValue != _previousValue) {
+      try {
+        for (var ev in _changeEvents.values) {
+          try {
+            ev(object);
+          } catch (e) {
+            print(e);
+          }
+        }
+      } catch (e) {}
     }
   }
 

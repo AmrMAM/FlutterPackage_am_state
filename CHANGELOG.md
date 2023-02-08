@@ -36,3 +36,7 @@ Adding feature: onInit, onDispose functions to the controller
 
 ## 3.1.0
 Adding feature: Adding Event Actions in [AmChannel].
+
+## 3.1.1
+Quality improvements in [AmChannel].
+
