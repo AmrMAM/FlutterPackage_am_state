@@ -13,9 +13,12 @@
 
 # am_state
 #### A state-management and data providing library. (Fast - Safe - Easy)
+### It has an easy technique to implement (Model, View, Controller) for flutter Pages
 ### `This lib gives (AmDataProvider<T>) as data provider and (AmRefreshWidget<T>) as wrapper to the widgets that must be changed when provider data changed.`
 
 ## Getting Started:
+### it will be great if you installed [am-state] extension in vsCode 
+https://marketplace.visualstudio.com/items?itemName=Amr-MAM.am-state
 
 ### To import am_state:
 ```Dart
@@ -23,7 +26,7 @@ import 'package:am_state/am_state.dart';
 ```
 
 ## For well-organized code; we need to create 3 dart files 
- - ### The first dart file is for UI and we use [AmStateWidget]
+ - ### The first dart file is for UI and we use [AmViewWidget]
  - ### The second dart file is for State
  .......... `we need to create a normal class which has all properity we need to display in the UI page`
  - ### The third file is for Controller Class
@@ -31,61 +34,61 @@ import 'package:am_state/am_state.dart';
 
 ## It is time for an easy example for the home page
 #### The first step ==> Creating UI dart file 'home_ui.dart' and adding this code
+#### Easily if you installed the extension you can write amview then choose the snippet code and fill the fields
 ```Dart 
-class MyHomePage extends StatelessWidget {
+
+class MyHomePage extends AmViewWidget<HomeController> {
   const MyHomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return AmStateWidget(
-      amController: HomeController(HomeState()),
-      builder: (ctx, am) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Hi Am State App Test'),
+  Widget build(BuildContext context, am) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Hi Am State App Test'),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(8),
+        children: [
+          Text(
+            'Wow ${am.state.title}',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue,
+            ),
           ),
-          body: ListView(
-            padding: const EdgeInsets.all(8),
-            children: [
-              Text(
-                'Wow ${am.state.title}',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
-              ),
-              Text(
-                'num ---- ${am.state.number}',
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red,
-                ),
-              ),
-            ],
+          Text(
+            'num ---- ${am.state.number}',
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.red,
+            ),
           ),
-          floatingActionButton: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: () => am.increaseby1(),
-                child: const Icon(Icons.plus_one),
-              ),
-              ElevatedButton(
-                onPressed: () => am.decreaseby1(),
-                child: const Icon(Icons.remove),
-              ),
-              ElevatedButton(
-                onPressed: () => am.changeTitle(),
-                child: const Icon(Icons.change_circle),
-              ),
-            ],
+        ],
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ElevatedButton(
+            onPressed: () => am.increaseby1(),
+            child: const Icon(Icons.plus_one),
           ),
-        );
-      },
+          ElevatedButton(
+            onPressed: () => am.decreaseby1(),
+            child: const Icon(Icons.remove),
+          ),
+          ElevatedButton(
+            onPressed: () => am.changeTitle(),
+            child: const Icon(Icons.change_circle),
+          ),
+        ],
+      ),
     );
   }
+
+  @override
+  get config => HomeController(HomeModel());
 }
 ```
 
@@ -98,6 +101,7 @@ class HomeState {
 ```
 
 #### The third step ==> Creating Controller dart file 'home_controller.dart' and adding this code
+#### Easily if you installed the extension you can write amcont then choose the snippet code and fill the fields
 ```Dart
 class HomeController extends AmController<HomeState> {
   HomeController(super.state);
@@ -116,7 +120,16 @@ class HomeController extends AmController<HomeState> {
     state.title = '${state.title} Hi;\n';
     refresh();
   }
+  
+  // use the command 'refresh();' inside functions to update the view widget
+  // ---------------------------------------------------------------------------
+  @override
+  void onDispose() {}
+
+  @override
+  void onInit() {}
 }
+
 ```
 #### And that is all you need to do to create a page in well-organized clean code
 ## To Send And Get data by [AmChannel] in the whole app

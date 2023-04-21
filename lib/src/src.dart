@@ -439,100 +439,6 @@ class AmChannel<T> {
   void delete() => _stmem.remove(route);
 }
 
-/// A wrapper for widgets that must be changed as its controller [refresh] method is invoked.
-class AmStateWidget<T extends AmController> extends StatefulWidget {
-  /// A wrapper for widgets that must be changed as its controller [refresh] method is invoked.
-  const AmStateWidget(
-      {Key? key, required this.builder, required this.amController})
-      : // assert(amController is AmController),
-        super(key: key);
-
-  /// Takes [AmController] to refresh state if the [refresh] method is invoked.
-  final T amController;
-
-  /// A function gives you context and the controller with state as parameters and returns the widget you build.
-  final Widget Function(BuildContext ctx, T am) builder;
-
-  @override
-  _AmStateWstate<T> createState() => _AmStateWstate<T>();
-}
-
-class _AmStateWstate<T extends AmController> extends State<AmStateWidget<T>> {
-  final key = UniqueKey();
-  T? _controller;
-
-  @override
-  void initState() {
-    // widget.amDataProvider._callSetState.add(this);
-    // AmRefreshWidgetController._instances[context] =
-    //     AmRefreshWidgetController._inst(
-    //   statePoint: _getState,
-    //   key: key,
-    //   nullableStatePoint: _getStateNullable,
-    //   refresh: widget.amDataProvider._refresh,
-    // );
-
-    _controller = widget.amController;
-    // (_controller! as dynamic)._refresh = () => setState(() {});
-    (_controller! as dynamic)._refresh =
-        () => Timer.periodic(Duration(milliseconds: 5), (_) {
-              if (mounted) {
-                _.cancel();
-                // ignore: invalid_use_of_protected_member
-                setState(() {});
-              }
-            });
-
-    (_controller as dynamic)._ctx = context;
-    (_controller as dynamic).onInit();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.builder(context, _controller!);
-  }
-
-  @override
-  void dispose() {
-    // widget.amDataProvider._callSetState.removeWhere((e) => e.key == key);
-    // AmRefreshWidgetController._instances
-    //     .removeWhere((key, value) => key == context);
-    (_controller as dynamic).onDispose();
-    super.dispose();
-  }
-}
-
-abstract class _Cstate<T> {
-  final T state;
-  _Cstate(this.state);
-}
-
-abstract class AmController<T> extends _Cstate<T> {
-  void Function()? _refresh;
-  BuildContext? _ctx;
-  // bool? _isMounted;
-  AmController(T model) : super(model);
-
-  void onInit();
-  void onDispose();
-
-  void Function() get refresh {
-    if (_refresh != null) return _refresh!;
-    throw 'AM_State: the [AmStateWidget] is not initialized for this controller [${this.runtimeType}]';
-  }
-
-  // bool get readyToRefresh {
-  //   if (_isMounted != null) return _isMounted!;
-  //   throw 'AM_State: the [AmStateWidget] is not initialized for this controller [${this.runtimeType}]';
-  // }
-
-  BuildContext get context {
-    if (_ctx != null) return _ctx!;
-    throw 'AM_State: the [AmStateWidget] is not initialized for this controller [${this.runtimeType}]';
-  }
-}
-
 // class AmStateProvider<T, U> {
 //   final T controller<U>(){};
 //   final U state;
@@ -611,5 +517,99 @@ class _AmViewWstate<T extends AmController> extends State<AmViewWidget<T>> {
     //     .removeWhere((key, value) => key == context);
     (_controller as dynamic).onDispose();
     super.dispose();
+  }
+}
+
+// /// A wrapper for widgets that must be changed as its controller [refresh] method is invoked.
+// class AmStateWidget<T extends AmController> extends StatefulWidget {
+//   /// A wrapper for widgets that must be changed as its controller [refresh] method is invoked.
+//   const AmStateWidget(
+//       {Key? key, required this.builder, required this.amController})
+//       : // assert(amController is AmController),
+//         super(key: key);
+
+//   /// Takes [AmController] to refresh state if the [refresh] method is invoked.
+//   final T amController;
+
+//   /// A function gives you context and the controller with state as parameters and returns the widget you build.
+//   final Widget Function(BuildContext ctx, T am) builder;
+
+//   @override
+//   _AmStateWstate<T> createState() => _AmStateWstate<T>();
+// }
+
+// class _AmStateWstate<T extends AmController> extends State<AmStateWidget<T>> {
+//   final key = UniqueKey();
+//   T? _controller;
+
+//   @override
+//   void initState() {
+//     // widget.amDataProvider._callSetState.add(this);
+//     // AmRefreshWidgetController._instances[context] =
+//     //     AmRefreshWidgetController._inst(
+//     //   statePoint: _getState,
+//     //   key: key,
+//     //   nullableStatePoint: _getStateNullable,
+//     //   refresh: widget.amDataProvider._refresh,
+//     // );
+
+//     _controller = widget.amController;
+//     // (_controller! as dynamic)._refresh = () => setState(() {});
+//     (_controller! as dynamic)._refresh =
+//         () => Timer.periodic(Duration(milliseconds: 5), (_) {
+//               if (mounted) {
+//                 _.cancel();
+//                 // ignore: invalid_use_of_protected_member
+//                 setState(() {});
+//               }
+//             });
+
+//     (_controller as dynamic)._ctx = context;
+//     (_controller as dynamic).onInit();
+//     super.initState();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return widget.builder(context, _controller!);
+//   }
+
+//   @override
+//   void dispose() {
+//     // widget.amDataProvider._callSetState.removeWhere((e) => e.key == key);
+//     // AmRefreshWidgetController._instances
+//     //     .removeWhere((key, value) => key == context);
+//     (_controller as dynamic).onDispose();
+//     super.dispose();
+//   }
+// }
+
+abstract class _Cstate<T> {
+  final T state;
+  _Cstate(this.state);
+}
+
+abstract class AmController<T> extends _Cstate<T> {
+  void Function()? _refresh;
+  BuildContext? _ctx;
+  // bool? _isMounted;
+  AmController(T model) : super(model);
+
+  void onInit();
+  void onDispose();
+
+  void Function() get refresh {
+    if (_refresh != null) return _refresh!;
+    throw 'AM_State: the [AmStateWidget] is not initialized for this controller [${this.runtimeType}]';
+  }
+
+  // bool get readyToRefresh {
+  //   if (_isMounted != null) return _isMounted!;
+  //   throw 'AM_State: the [AmStateWidget] is not initialized for this controller [${this.runtimeType}]';
+  // }
+
+  BuildContext get context {
+    if (_ctx != null) return _ctx!;
+    throw 'AM_State: the [AmStateWidget] is not initialized for this controller [${this.runtimeType}]';
   }
 }

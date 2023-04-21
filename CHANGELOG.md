@@ -43,3 +43,7 @@ Adding class [AmTools] and adding uniqueID generator.
 ## 3.1.3
 Adding feature: Accessibility for the [context] inside the controller class
 
+## 3.5.0
+Enhancing technique: Model, View, Controller
+Creating Snippet vsCode extension named [am-state]
+
