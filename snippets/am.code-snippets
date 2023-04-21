@@ -1,0 +1,45 @@
+{
+  "AM View Controller": {
+    "prefix": "amviewcontroller",
+    "body": [
+      "class ${1:MyController} extends AmController<${2:MyModel}> {",
+      "  ${1:MyController}(super.model);",
+      "",
+      "  // use the command 'refresh();' to update the view inside functions",
+      "  // ---------------------------------------------------------------------------",
+      "  @override",
+      "  void onDispose() {}",
+      "",
+      "  @override",
+      "  void onInit() {}",
+      "}",
+    ],
+    "description": "Creates a view Controller"
+  },
+  "AM view Widget": {
+    "prefix": "amviewwidget",
+    "body": [
+      "class ${1:MyViewWidget} extends AmViewWidget<${2:MyController}> {",
+      "  const ${1:MyViewWidget}({super.key});",
+      "",
+      "  @override",
+      "  Widget build(BuildContext context, am) {",
+      "    return Container();",
+      "  }",
+      "",
+      "  @override",
+      "  get config => ${2:MyController}(${3:MyModel}());",
+      "}",
+    ],
+    "description": "Creates a view widget"
+  },
+  "AM Model": {
+    "prefix": "ammodel",
+    "body": [
+      "class ${1:MyModel} {",
+      "//------------[Write properties here]------------",
+      "}",
+    ],
+    "description": "Creates a Model"
+  }
+}

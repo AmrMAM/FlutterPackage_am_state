@@ -40,3 +40,6 @@ Adding feature: Adding Event Actions in [AmChannel].
 ## 3.1.2
 Adding class [AmTools] and adding uniqueID generator.
 
+## 3.1.3
+Adding feature: Accessibility for the [context] inside the controller class
+
