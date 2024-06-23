@@ -47,3 +47,6 @@ Adding feature: Accessibility for the [context] inside the controller class
 Enhancing technique: Model, View, Controller
 Creating Snippet vsCode extension named [am-state]
 
+## 3.6.0
+Adding some tools and extensions
+

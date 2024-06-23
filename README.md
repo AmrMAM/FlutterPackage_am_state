@@ -16,122 +16,126 @@
 ### It has an easy technique to implement (Model, View, Controller) for flutter Pages
 ### `This lib gives (AmDataProvider<T>) as data provider and (AmRefreshWidget<T>) as wrapper to the widgets that must be changed when provider data changed.`
 
-## Getting Started:
-### it will be great if you installed [am-state] extension in vsCode 
-https://marketplace.visualstudio.com/items?itemName=Amr-MAM.am-state
+# Getting Started:
+  ### it will be great if you installed [am-state] extension in vsCode 
+  https://marketplace.visualstudio.com/items?itemName=Amr-MAM.am-state
 
-### To import am_state:
-```Dart
-import 'package:am_state/am_state.dart';
-```
+  ### To import am_state:
+  ```Dart
+  import 'package:am_state/am_state.dart';
+  ```
 
-## For well-organized code; we need to create 3 dart files 
- - ### The first dart file is for UI and we use [AmViewWidget]
- - ### The second dart file is for State
- .......... `we need to create a normal class which has all properity we need to display in the UI page`
- - ### The third file is for Controller Class
- .......... `we need to create a class for the controller extended from [AmController<State_Class>]`
+## For well-organized code; we need to create 3 dart files for each screen
+  - ### The 1st dart file is for State model class extends nothing
+    - `we need to create a normal class which has all properity we need to display in the UI page`
+    ###
+  - ### The 2nd file is for the Controller Class and we extend from [AmController<StateModelClass>]
+    - `we need to create a class for the controller extended from [AmController<State_Class>]`
+    ###
+  - ### The 3rd dart file is for UI and we extend from this class [AmViewWidget<ControllerClass>]
 
-## It is time for an easy example for the home page
-#### The first step ==> Creating UI dart file 'home_ui.dart' and adding this code
-#### Easily if you installed the extension you can write amview then choose the snippet code and fill the fields
-```Dart 
+  ## It is time for an easy example for the home page  
+  - ### `The 1st step` ==> Creating State dart file `home_state.dart` and adding this code
+    ```Dart
+    class HomeState {
+      int number = 0;
+      String title = 'hello';
+    }
+    ```
+  - ### `The 2nd step` ==> Creating Controller dart file `home_controller.dart` and adding this code
+      #### Easily if you installed the extension you can write `amcont` then choose the snippet code and fill the fields
+      ```Dart
+      class HomeController extends AmController<HomeState> {
+        HomeController(super.state);
 
-class MyHomePage extends AmViewWidget<HomeController> {
-  const MyHomePage({super.key});
+        void increaseby1() {
+          state.number++;
+          refresh();
+        }
 
-  @override
-  Widget build(BuildContext context, am) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Hi Am State App Test'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(8),
-        children: [
-          Text(
-            'Wow ${am.state.title}',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue,
+        void decreaseby1() {
+          state.number--;
+          refresh();
+        }
+
+        void changeTitle() {
+          state.title = '${state.title} Hi;\n';
+          refresh();
+        }
+        
+        // use the command 'refresh();' inside functions to update the view widget
+        // ---------------------------------------------------------------------------
+        @override
+        void onDispose() {}
+
+        @override
+        void onInit() {}
+      }
+
+      ```
+
+
+  - ### `The 3rd step` ==> Creating UI dart file `home_ui.dart` and adding this code
+      #### Easily if you installed the extension you can write `amview` then choose the snippet code and fill the fields
+      ```Dart 
+
+      class MyHomePage extends AmViewWidget<HomeController> {
+        const MyHomePage({super.key});
+
+        @override
+        Widget build(BuildContext context, am) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Hi Am State App Test'),
             ),
-          ),
-          Text(
-            'num ---- ${am.state.number}',
-            style: const TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.red,
+            body: ListView(
+              padding: const EdgeInsets.all(8),
+              children: [
+                Text(
+                  'Wow ${am.state.title}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                  ),
+                ),
+                Text(
+                  'num ---- ${am.state.number}',
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton(
-            onPressed: () => am.increaseby1(),
-            child: const Icon(Icons.plus_one),
-          ),
-          ElevatedButton(
-            onPressed: () => am.decreaseby1(),
-            child: const Icon(Icons.remove),
-          ),
-          ElevatedButton(
-            onPressed: () => am.changeTitle(),
-            child: const Icon(Icons.change_circle),
-          ),
-        ],
-      ),
-    );
-  }
+            floatingActionButton: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () => am.increaseby1(),
+                  child: const Icon(Icons.plus_one),
+                ),
+                ElevatedButton(
+                  onPressed: () => am.decreaseby1(),
+                  child: const Icon(Icons.remove),
+                ),
+                ElevatedButton(
+                  onPressed: () => am.changeTitle(),
+                  child: const Icon(Icons.change_circle),
+                ),
+              ],
+            ),
+          );
+        }
 
-  @override
-  get config => HomeController(HomeModel());
-}
-```
+        @override
+        get config => HomeController(HomeModel());
+      }
+      ```
 
-#### The second step ==> Creating State dart file 'home_state.dart' and adding this code
-```Dart
-class HomeState {
-  int number = 0;
-  String title = 'hello';
-}
-```
+  #### And that is all you need to do to create a page in well-organized clean code
 
-#### The third step ==> Creating Controller dart file 'home_controller.dart' and adding this code
-#### Easily if you installed the extension you can write amcont then choose the snippet code and fill the fields
-```Dart
-class HomeController extends AmController<HomeState> {
-  HomeController(super.state);
-
-  void increaseby1() {
-    state.number++;
-    refresh();
-  }
-
-  void decreaseby1() {
-    state.number--;
-    refresh();
-  }
-
-  void changeTitle() {
-    state.title = '${state.title} Hi;\n';
-    refresh();
-  }
-  
-  // use the command 'refresh();' inside functions to update the view widget
-  // ---------------------------------------------------------------------------
-  @override
-  void onDispose() {}
-
-  @override
-  void onInit() {}
-}
-
-```
-#### And that is all you need to do to create a page in well-organized clean code
 ## To Send And Get data by [AmChannel] in the whole app
 ### To create a channel and save data in it
 ```Dart
@@ -293,6 +297,64 @@ child: AmRefreshWidget<int>(
   },
 ),
 ```
+
+## Additional Tools
+  - ### to generate unique id in milli seconds resolution
+    ```Dart
+      import 'package:am_state/am_state.dart';
+
+      var uid = AmTools.genUniqueId();
+    ```
+  
+  - ### to generate unique id in micro seconds resolution
+    ```Dart
+      import 'package:am_state/am_state.dart';
+
+      var uid = AmTools.genUniqueIdMicro();
+    ```
+  
+  - ### to calculate the MD5 hash of the given [String]
+    ```Dart
+      import 'package:am_state/am_state.dart';
+
+      var hash = AmTools.calculateMD5Hash(" ------- string ------");
+    ```
+  
+  - ### to calculate the MD5 hash of the given [File]
+    ```Dart
+      import 'package:am_state/am_state.dart';
+
+      var hash = AmTools.calculateMD5HashFromFile(file);
+    ```  
+  
+  - ### to calculate the MD5 hash of the given bytes [Uint8List]
+    ```Dart
+      import 'package:am_state/am_state.dart';
+
+      var hash = AmTools.calculateMD5HashFromBytes(byteList);
+    ```
+
+  - ### some extra extensions
+    ```Dart
+      import 'package:am_state/am_state.dart';
+
+      bool x = "true ".toBool();
+
+      String x = date.amDateFormatYYMMDD();
+      String x = date.amTimeFormatHHMMSS();
+      String x = date.amTimeFormatHHMMPMam();
+
+      String x = duration.convertToString();
+      String x = duration.convertToWatchString();
+
+      String x = file.getFileName;
+      String x = file.getFileExtension;
+
+      /// ex. split [1, 2, 3, 3, 4, 5, 3, 3, 6, 7] for [3, 3]
+      /// result => [[1, 2], [4, 5], [6, 7]]
+      List<List<T>> x = list.splitList(delimiterList);
+    ```
+
 
 ### Please star my repo and follow me 😍
 https://github.com/AmrMAM/FlutterPackage_am_state

@@ -269,47 +269,6 @@ class AmDataProvider<T> {
   }
 }
 
-extension ToBool on String {
-  /// to convert a string to boolean;
-  /// Returns [true] if the Lower Case of this variable == 'true';
-  bool toBool() {
-    return this.toLowerCase() == 'true';
-  }
-}
-
-extension AmFormating on DateTime {
-  /// Returns the DateTime in this format [2022/05/15];
-  String amDateFormatYYMMDD() {
-    final _dte = this;
-    final _mnth = _dte.month <= 9 ? '0${_dte.month}' : '${_dte.month}';
-    final _day = _dte.day <= 9 ? '0${_dte.day}' : '${_dte.day}';
-
-    return '${_dte.year}/$_mnth/$_day';
-  }
-
-  /// Returns the DateTime in this format [05:30:56];
-  String amTimeFormatHHMMSS() {
-    final _hh = this.hour <= 9 ? '0${this.hour}' : '${this.hour}';
-    final _mm = this.minute <= 9 ? '0${this.minute}' : '${this.minute}';
-    final _ss = this.second <= 9 ? '0${this.second}' : '${this.second}';
-
-    return '$_hh:$_mm:$_ss';
-  }
-
-  /// Returns the DateTime in this format [05:30 am];
-  String amTimeFormatHHMMPMam() {
-    bool isPM = this.hour >= 12;
-    int hour = isPM ? this.hour - 12 : this.hour;
-    hour = hour == 0 ? 12 : hour;
-
-    final _hh = hour <= 9 ? '0$hour' : '$hour';
-    final _mm = this.minute <= 9 ? '0${this.minute}' : '${this.minute}';
-    // final _ss = this.second <= 9 ? '0${this.second}' : '${this.second}';
-
-    return '$_hh:$_mm ${isPM ? 'PM' : 'AM'}';
-  }
-}
-
 extension AmMemory<T> on T {
   static final _stmem = {};
 
@@ -437,26 +396,6 @@ class AmChannel<T> {
 
   /// to delete the channel for this route (to freeup memory)
   void delete() => _stmem.remove(route);
-}
-
-// class AmStateProvider<T, U> {
-//   final T controller<U>(){};
-//   final U state;
-
-//   AmStateProvider(this.controller)
-//       : state = (controller as AmController<U>).state;
-// }
-
-abstract class AmTools {
-  /// to generate unique id in milli seconds resolution
-  static String genUniqueId() {
-    return DateTime.now().millisecondsSinceEpoch.toString();
-  }
-
-  /// to generate unique id in micro seconds resolution
-  static String genUniqueIdMicro() {
-    return DateTime.now().microsecondsSinceEpoch.toString();
-  }
 }
 
 ///=============================================================================
